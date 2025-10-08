@@ -1,0 +1,28 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "version": "1.0",
+  "description": "Universal Claude Code settings for all projects",
+
+  "permissions": {
+    "allow": ["*"],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.*)",
+      "Read(*.pem)",
+      "Read(*.key)",
+      "Read(secrets.json)",
+      "Read(credentials.json)",
+      "Write(.env)",
+      "Write(.env.local)",
+      "Write(*.pem)",
+      "Write(*.key)"
+    ]
+  },
+
+  "env": {
+    "CLAUDE_PARALLEL_EXECUTION": "enabled",
+    "CLAUDE_AUTO_AGENTS": "enabled",
+    "CLAUDE_AUTO_COMMANDS": "enabled"
+  }
+}
