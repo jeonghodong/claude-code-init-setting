@@ -141,11 +141,11 @@ This CLAUDE.md file is designed to be easily customized for any project.
    - Run tests before committing
    ```
 
-3. **Modify prompts** in `.claude/prompts/` for universal guidelines
+3. **Modify prompts** in `@.claude/prompts/` for universal guidelines
 
-   - `core/` - Principles that apply to all tasks
-   - `domain/` - Task-specific guidelines
-   - `quality/` - Quality assurance practices
+   - `@.claude/prompts/core/` - Principles that apply to all tasks
+   - `@.claude/prompts/domain/` - Task-specific guidelines
+   - `@.claude/prompts/quality/` - Quality assurance practices
 
 4. **Keep auto-loading rules updated** (if you add new prompts)
 
@@ -184,13 +184,13 @@ This CLAUDE.md file is designed to be easily customized for any project.
 
 ## 🤖 Autonomous Behavior
 
-**Detailed guidelines**: See `prompts/core/automation-rules.md`
+**Detailed guidelines**: See `@.claude/prompts/core/automation-rules.md`
 
 **Summary**:
 
 - Claude automatically uses agents, commands, and workflows based on task context
 - No explicit user request needed for automation
-- Claude proactively applies best practices from `.claude/prompts/`
+- Claude proactively applies best practices from `@.claude/prompts/`
 - Always runs independent operations in parallel
 - Briefly informs user of actions taken
 
@@ -198,11 +198,11 @@ This CLAUDE.md file is designed to be easily customized for any project.
 
 ## 🔌 MCP Server Integration
 
-**Detailed guidelines**: See `prompts/core/mcp-integration.md`
+**Detailed guidelines**: See `@.claude/prompts/core/mcp-integration.md`
 
 **Summary**:
 
-- Claude automatically discovers MCP servers from `.mcp.json` at session start
+- Claude automatically discovers MCP servers from `@.mcp.json` at session start
 - MCP tools used proactively when they match task context
 - Graceful fallback to default tools if MCP unavailable
 - MCP usage combined with agents, commands, and workflows
@@ -211,11 +211,11 @@ This CLAUDE.md file is designed to be easily customized for any project.
 
 ## 🔗 Integration with .claude Directory
 
-This CLAUDE.md works together with the `.claude/` configuration:
+This CLAUDE.md works together with the `@.claude/` configuration:
 
 ### Division of Responsibility
 
-| CLAUDE.md               | .claude/prompts/          | .claude/ (other)            |
+| CLAUDE.md               | @.claude/prompts/         | @.claude/ (other)           |
 | ----------------------- | ------------------------- | --------------------------- |
 | Project-specific config | Universal best practices  | Agents, commands, workflows |
 | Auto-loading rules      | Detailed guidelines       | Tool definitions            |
@@ -256,10 +256,10 @@ This CLAUDE.md works together with the `.claude/` configuration:
 
 ## 📝 Quick Start for New Projects
 
-1. **Copy `.claude/` directory** to your new project
+1. **Copy `@.claude/` directory** to your new project
 2. **Copy `CLAUDE.md`** to your new project
 3. **Update "Project-Specific Configuration"** section in CLAUDE.md
-4. **Optionally customize prompts** in `.claude/prompts/`
+4. **Optionally customize prompts** in `@.claude/prompts/`
 5. **Commit both** to version control
 
 **That's it!** Claude will automatically:
@@ -308,13 +308,12 @@ This CLAUDE.md works together with the `.claude/` configuration:
 
 ## 📚 Learning More
 
-- **Prompt Index**: `.claude/prompts/INDEX.md` - All prompts with descriptions
-- **Core Principles**: `.claude/prompts/core/` - Universal guidelines
-- **Task Guidelines**: `.claude/prompts/domain/` - Specific task patterns
-- **Quality Practices**: `.claude/prompts/quality/` - Ensuring quality
-- **Agents**: `.claude/agents/` - Specialized agent definitions
-- **Commands**: `.claude/commands/` - Available slash commands
-- **Workflows**: `.claude/workflows/` - Structured processes
+- **Prompt Index**: `@.claude/prompts/INDEX.md` - All prompts with descriptions
+- **Core Principles**: `@.claude/prompts/core/` - Universal guidelines
+- **Task Guidelines**: `@.claude/prompts/domain/` - Specific task patterns
+- **Quality Practices**: `@.claude/prompts/quality/` - Ensuring quality
+- **Agents**: `@.claude/agents/` - Specialized agent definitions
+- **Commands**: `@.claude/commands/` - Available slash commands
 
 ---
 
@@ -343,7 +342,7 @@ This CLAUDE.md works together with the `.claude/` configuration:
 **Remember**:
 
 - The **Auto-Loading Rules** section is the key to this system
-- All **detailed guidelines** live in `.claude/prompts/`
+- All **detailed guidelines** live in `@.claude/prompts/`
 - **Project-specific config** goes in this file
 - **Universal best practices** go in `.claude/prompts/`
 
