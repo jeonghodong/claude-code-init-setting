@@ -15,6 +15,7 @@ Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시
 @/Users/atad/Desktop/ATAD/project/ATAD_MONOREPO/apps/ATAD_ODIIN/.claude/agents/의 에이전트 참고하여 작업합니다.
 디자인 작업 할 때는 @agent-fullstack-developer를 참고하여 작업합니다.
 만약 다른 작업들도 필요하다면 다른 에이전트들도 확인을 합니다.
+여러 태스크를 열어서 병렬 작업으로 진행하도록 합니다.
 
 ## 📋 작업 프로세스
 
