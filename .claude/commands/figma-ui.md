@@ -12,11 +12,6 @@ argument-hint: <figma_urls> <target_page_path> <description>
 
 Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시스템에 맞춰 실제 동작하는 UI 생성합니다.
 
-@/Users/atad/Desktop/ATAD/project/ATAD_MONOREPO/apps/ATAD_ODIIN/.claude/agents/의 에이전트 참고하여 작업합니다.
-디자인 작업 할 때는 @agent-fullstack-developer를 참고하여 작업합니다.
-만약 다른 작업들도 필요하다면 다른 에이전트들도 확인을 합니다.
-여러 태스크를 열어서 병렬 작업으로 진행하도록 합니다.
-
 ## 📋 작업 프로세스
 
 ### 1. Figma 디자인 분석
@@ -51,9 +46,22 @@ Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시
 - app/_components/PolicyEditor/ (재사용 가능한 경우)
 ```
 
+만약 기존 컴포넌트에 없다면 페이지 전용 컴포넌트로 신규 생성합니다.
+
 ### 4. 이미지 및 아이콘 처리
 
 - 저장 경로: `@/app/_components/icons/` 또는 페이지별 `_components/icons/`
+
+### 5. 클로드코드의 작업 플로우 틀을 참고하여 작업합니다.
+
+@/Users/atad/Desktop/ATAD/project/ATAD_MONOREPO/apps/ATAD_ODIIN/.claude/agents/의 에이전트들을 사용하여 작업합니다.
+디자인 작업 할 때는 @agent-fullstack-developer 에이전트를 사용하여 작업합니다.
+만약 다른 작업들도 필요하다면 다른 에이전트들도 확인을 합니다.
+여러 태스크를 열어서 병렬 작업으로 진행하도록 합니다.
+
+### 6. playwrite mcp를 사용할때는 아래 내용을 참고합니다.
+
+이미 켜져있는 크롬 브라우저에서 첨부한 url이 이미 있다면 그 탭에서 바로 작업을 진행합니다.
 
 ## 🎯 구현 요구사항
 
