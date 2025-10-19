@@ -27,8 +27,11 @@ This file provides guidance to Claude Code when working with code in this reposi
 | Writing tests, test files, `/test`                | `@.claude/prompts/quality/testing-strategy.md`                                                                         |
 | "security", auth code, user input, `/security`    | `@.claude/prompts/quality/security-practices.md`                                                                       |
 | Code review, PR review, `/refactor`               | `@.claude/prompts/quality/code-review.md`                                                                              |
-
-**Index**: See `@.claude/prompts/INDEX.md` for complete prompt documentation.
+| "commit", `/commit`, git commit operations        | `@.claude/prompts/git/commit-guidelines.md`                                                                            |
+| "branch", branch operations, branch naming        | `@.claude/prompts/git/branch-management.md`                                                                            |
+| "pull request", "PR", creating/reviewing PRs      | `@.claude/prompts/git/pull-request-best-practices.md`                                                                  |
+| "workflow", "git flow", "github flow"             | `@.claude/prompts/git/git-workflow.md`                                                                                 |
+| "merge", "rebase", "squash", "conflict"           | `@.claude/prompts/git/merge-strategies.md`                                                                             |
 
 ### Manual Reference Syntax
 
@@ -228,7 +231,6 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 ```
 .claude/
 ├── prompts/
-│   ├── INDEX.md              # Prompt documentation
 │   ├── core/                 # Universal principles
 │   │   ├── execution-principles.md
 │   │   ├── agentic-patterns.md
@@ -242,10 +244,16 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 │   │   ├── architecture.md
 │   │   ├── performance.md
 │   │   └── deployment.md
-│   └── quality/              # Quality assurance
-│       ├── testing-strategy.md
-│       ├── security-practices.md
-│       └── code-review.md
+│   ├── quality/              # Quality assurance
+│   │   ├── testing-strategy.md
+│   │   ├── security-practices.md
+│   │   └── code-review.md
+│   └── git/                  # Git/GitHub best practices
+│       ├── commit-guidelines.md
+│       ├── branch-management.md
+│       ├── pull-request-best-practices.md
+│       ├── git-workflow.md
+│       └── merge-strategies.md
 ├── agents/                   # Specialized agents
 ├── commands/                 # Slash commands
 ├── workflows/                # Structured workflows
@@ -308,12 +316,14 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 
 ## 📚 Learning More
 
-- **Prompt Index**: `@.claude/prompts/INDEX.md` - All prompts with descriptions
 - **Core Principles**: `@.claude/prompts/core/` - Universal guidelines
 - **Task Guidelines**: `@.claude/prompts/domain/` - Specific task patterns
 - **Quality Practices**: `@.claude/prompts/quality/` - Ensuring quality
+- **Git/GitHub Practices**: `@.claude/prompts/git/` - Version control best practices
 - **Agents**: `@.claude/agents/` - Specialized agent definitions
 - **Commands**: `@.claude/commands/` - Available slash commands
+
+**Note**: All prompt files are automatically loaded based on task keywords (see Auto-Loading Rules above). You can also manually reference them using `@.claude/prompts/path/to/prompt.md` syntax.
 
 ---
 
