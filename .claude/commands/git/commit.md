@@ -7,9 +7,13 @@ model: sonnet
 
 ## 🤖 Agent to Use
 
-**Use the `github-expert` agent (`@.claude/agents/github-expert.md`) to perform this commit.**
+**Use the `github-expert` agent (`@.claude/agents/github-expert.md`) to perform this commit.무조건 써라 이 에이전트를**
+**Use the `github-expert` agent (`@.claude/agents/github-expert.md`) to perform this commit.무조건 써라 이 에이전트를**
+**Use the `github-expert` agent (`@.claude/agents/github-expert.md`) to perform this commit.무조건 써라 이 에이전트를**
+**Use the `github-expert` agent (`@.claude/agents/github-expert.md`) to perform this commit.무조건 써라 이 에이전트를**
 
 The github-expert agent will automatically:
+
 1. Reference `@.claude/prompts/git/commit-guidelines.md` for best practices
 2. Execute pre-commit checks (security, quality, tests)
 3. Generate Conventional Commits formatted messages
@@ -25,6 +29,7 @@ The github-expert agent will automatically:
 The agent will perform these steps in sequence:
 
 ### 1. **Review Changes**
+
 ```bash
 git status
 git diff
@@ -32,6 +37,7 @@ git diff --staged
 ```
 
 ### 2. **Security & Quality Checks**
+
 - ✅ Check for sensitive files (`.env`, `.mcp.json`, credentials)
 - ✅ Run linter: `npm run lint` or equivalent
 - ✅ Run type checker: `npm run type-check`
@@ -39,13 +45,16 @@ git diff --staged
 - ✅ Run build: `npm run build`
 
 ### 3. **Stage Files**
+
 ```bash
 git add <files>
 git diff --staged  # Review before commit
 ```
 
 ### 4. **Create Commit**
+
 Using Conventional Commits format:
+
 ```
 <type>: <description>
 
@@ -57,6 +66,7 @@ Using Conventional Commits format:
 Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `build`
 
 ### 5. **Verify & Push** (optional)
+
 ```bash
 git log -1 --stat
 git push  # if ready
@@ -69,6 +79,7 @@ git push  # if ready
 The agent follows these principles (from `commit-guidelines.md`):
 
 **✅ DO**:
+
 - Atomic commits (one logical change)
 - Clear, descriptive messages
 - Security checks (no secrets)
@@ -76,6 +87,7 @@ The agent follows these principles (from `commit-guidelines.md`):
 - Conventional Commits format
 
 **❌ DON'T**:
+
 - Commit sensitive files
 - Skip tests or linting
 - Use vague messages
@@ -87,6 +99,7 @@ The agent follows these principles (from `commit-guidelines.md`):
 ## 📝 Commit Message Examples
 
 **Good**:
+
 ```bash
 feat: add user authentication with OAuth2
 fix: resolve memory leak in data processing
@@ -95,6 +108,7 @@ refactor: extract validation into separate module
 ```
 
 **Bad**:
+
 ```bash
 ❌ "fix stuff"
 ❌ "WIP"
@@ -107,6 +121,7 @@ refactor: extract validation into separate module
 ## 🚨 Special Cases
 
 ### Breaking Changes
+
 ```
 feat!: change API authentication to OAuth2
 
@@ -117,6 +132,7 @@ Closes #789
 ```
 
 ### Multiple Authors
+
 ```
 feat: add real-time notifications
 
@@ -124,6 +140,7 @@ Co-authored-by: Name <email@example.com>
 ```
 
 ### Amend Last Commit (if not pushed)
+
 ```bash
 git commit --amend
 ```
@@ -133,6 +150,7 @@ git commit --amend
 ## ✅ Pre-Commit Checklist
 
 The agent verifies:
+
 - [ ] No sensitive files (`.env`, credentials, API keys)
 - [ ] Linter passes
 - [ ] Type checker passes
