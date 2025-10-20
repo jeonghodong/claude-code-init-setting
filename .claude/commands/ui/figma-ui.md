@@ -8,6 +8,11 @@ argument-hint: <figma_urls> <target_page_path> <description>
 **타겟 페이지 경로**: $2
 **설명**: $3
 
+**무조건: @.claude/agents/ui-qa-tester, @.claude/agents/fullstack-developer 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
+**무조건: @.claude/agents/ui-qa-tester, @.claude/agents/fullstack-developer 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
+**무조건: UI 작업을 한다면 최소 5번은 @.claude/agents/ui-qa-tester 에이전트를 사용하고 playwrite mcp를 사용하여 똑같은 UI인지 반복 테스트를 진행합니다.**
+**무조건: UI 작업을 한다면 최소 5번은 @.claude/agents/ui-qa-tester 에이전트를 사용하고 playwrite mcp를 사용하여 똑같은 UI인지 반복 테스트를 진행합니다.**
+
 # Figma to UI Generator
 
 Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시스템에 맞춰 실제 동작하는 UI 생성합니다.
@@ -54,7 +59,7 @@ Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시
 
 ### 5. 클로드코드의 작업 플로우 틀을 참고하여 작업합니다.
 
-@/Users/atad/Desktop/ATAD/project/ATAD_MONOREPO/apps/ATAD_ODIIN/.claude/agents/의 에이전트들을 사용하여 작업합니다.
+@.claude/agents/의 에이전트들을 사용하여 작업합니다.
 디자인 작업 할 때는 @agent-fullstack-developer 에이전트를 사용하여 작업합니다.
 만약 다른 작업들도 필요하다면 다른 에이전트들도 확인을 합니다.
 여러 태스크를 열어서 병렬 작업으로 진행하도록 합니다.
