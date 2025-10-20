@@ -1,8 +1,10 @@
 ---
-description: 새로운 Claude Code Skill을 생성합니다
+description: 새로운 Claude Code Skill을 생성합니다.
 model: sonnet
 argument-hint: <description>
 ---
+
+예시: 이 프로젝트에 필요한 스킬들을 생성해줘
 
 **Skill Description**: $1
 
