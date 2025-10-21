@@ -1,13 +1,13 @@
 ---
 description: Figma 디자인을 분석하여 실제 동작하는 UI를 생성합니다.
 model: sonnet
-argument-hint: <figma_urls> <target_path> <description> <component_path>
+argument-hint: <figma_urls> <target_path> <component_path> <description>
 ---
 
 **Figma URLs**: $1
 **타겟 작업 경로**: $2
-**설명**: $3
-**컴포넌트 경로**: $4
+**컴포넌트 경로**: $3
+**설명**: $4
 
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
