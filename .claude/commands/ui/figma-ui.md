@@ -13,6 +13,8 @@ argument-hint: <figma_urls> <target_path> <description> <component_path>
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
 **무조건: UI 작업을 한다면 최소 5번은 @.claude/agents/ui-qa-tester 에이전트를 사용하고 playwrite mcp를 사용하여 똑같은 UI인지 반복 테스트를 진행합니다.**
 **무조건: UI 작업을 한다면 최소 5번은 @.claude/agents/ui-qa-tester 에이전트를 사용하고 playwrite mcp를 사용하여 똑같은 UI인지 반복 테스트를 진행합니다.**
+**무조건: 폼 상태관리는 React Hook Form을 사용한다. 폼 작업 시 React Hook Form 에이전트를 꼭 사용해라 @.claude/agents/react-hook-form-specialist.md**
+**무조건: 폼 상태관리는 React Hook Form을 사용한다. 폼 작업 시 React Hook Form 에이전트를 꼭 사용해라 @.claude/agents/react-hook-form-specialist.md**
 
 # Figma to UI Generator
 
