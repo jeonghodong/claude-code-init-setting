@@ -1,12 +1,13 @@
 ---
 description: Figma 디자인을 분석하여 실제 동작하는 UI를 생성합니다.
 model: sonnet
-argument-hint: <figma_urls> <target_page_path> <description>
+argument-hint: <figma_urls> <target_path> <description> <component_path>
 ---
 
 **Figma URLs**: $1
-**타겟 페이지 경로**: $2
+**타겟 작업 경로**: $2
 **설명**: $3
+**컴포넌트 경로**: $4
 
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
@@ -43,6 +44,7 @@ Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시
 
 ```
 타겟 페이지 경로 기준:
+- <component_path> 에 있는 컴포넌트 최우선순위
 - 페이지 전용 컴포넌트: {target_page_path}/_components/
 - 전역 재사용 컴포넌트: @/app/_components/
 
