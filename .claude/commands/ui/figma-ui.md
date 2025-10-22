@@ -1,13 +1,14 @@
 ---
 description: Figma 디자인을 분석하여 실제 동작하는 UI를 생성합니다.
 model: sonnet
-argument-hint: <figma_urls> <target_path> <component_path> <description>
+argument-hint: <figma_urls> <target_path> <component_path> <description> <playwright_test_page_url>
 ---
 
 **Figma URLs**: $1
 **타겟 작업 경로**: $2
 **컴포넌트 경로**: $3
 **설명**: $4
+**Playwright 테스트 페이지 URL**: $5
 
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
 **무조건: @.claude/agents/ui-qa-tester, @.claude/agents/frontend-engineer.md 서브 에이전트들을 사용하여 병렬적으로 작업합니다.**
@@ -70,6 +71,7 @@ Figma MCP를 사용하여 디자인을 분석하고, ATAD ODIIN의 디자인 시
 
 ### 6. playwrite mcp를 사용할때는 아래 내용을 참고합니다.
 
+<playwright_test_page_url> 를 참고
 이미 켜져있는 크롬 브라우저에서 첨부한 url이 이미 있다면 그 탭에서 바로 작업을 진행합니다.
 
 ## 🎯 구현 요구사항
