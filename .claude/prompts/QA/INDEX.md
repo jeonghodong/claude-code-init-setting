@@ -137,6 +137,78 @@
 
 ---
 
+### 7. Functional Testing (`functional-testing.md`)
+**사용 시기**: Playwright 기반 기능 테스트 수행 시
+
+**주요 내용**:
+- 사용자 관점 테스트 시나리오
+- 폼 검증 및 제출 플로우
+- 인증/권한 테스트
+- API 상호작용 검증
+- 모바일 & 반응형 테스트
+
+**활용 예시**:
+```
+"페이지 기능을 자동으로 테스트하고 싶어" → functional-testing.md 참조
+"로그인부터 데이터 제출까지 전체 플로우 검증" → functional-testing.md 참조
+```
+
+---
+
+### 8. Issue Documentation (`issue-documentation.md`)
+**사용 시기**: QA 테스트 중 이슈 발견 시
+
+**주요 내용**:
+- 표준 이슈 리포트 템플릿
+- 심각도 분류 (Critical/High/Medium/Low)
+- 재현 단계 작성법
+- 스크린샷/로그 첨부 가이드
+- JSON 형식 구조화
+
+**활용 예시**:
+```
+"이슈를 발견했는데 어떻게 문서화하지?" → issue-documentation.md 참조
+"버그 리포트를 체계적으로 작성하고 싶어" → issue-documentation.md 참조
+```
+
+---
+
+### 9. Test Automation Patterns (`test-automation-patterns.md`)
+**사용 시기**: 자가 학습형 QA 시스템 구축 시
+
+**주요 내용**:
+- 과거 테스트 데이터 학습
+- 반복 테스트 및 자동 수정
+- 스마트 테스트 우선순위
+- 컨텍스트 인식 테스팅
+- 학습 데이터베이스 관리
+
+**활용 예시**:
+```
+"테스트가 점점 똑똑해지게 만들고 싶어" → test-automation-patterns.md 참조
+"과거 이슈를 학습해서 자동으로 감지하고 싶어" → test-automation-patterns.md 참조
+```
+
+---
+
+### 10. Data Cleanup (`data-cleanup.md`)
+**사용 시기**: 테스트 데이터 정리가 필요할 때
+
+**주요 내용**:
+- 삭제 기능을 통한 데이터 정리
+- 생성 → 검증 → 삭제 사이클
+- 사용자 계정 정리
+- 파일/컨텐츠 정리
+- 비용 최적화 전략
+
+**활용 예시**:
+```
+"테스트 후 생성된 데이터를 자동으로 삭제하고 싶어" → data-cleanup.md 참조
+"테스트 비용을 절감하고 싶어" → data-cleanup.md 참조
+```
+
+---
+
 ## 🚀 자동화된 QA 프로세스
 
 Claude는 다음 키워드를 감지하면 자동으로 관련 가이드를 적용합니다:
@@ -149,6 +221,10 @@ Claude는 다음 키워드를 감지하면 자동으로 관련 가이드를 적�
 | "통합", "API", "연동" | integration-testing.md |
 | "E2E", "사용자 플로우" | e2e-testing.md |
 | "시각적", "스크린샷", "회귀" | visual-regression-testing.md |
+| "기능 테스트", "Playwright", "자동화" | functional-testing.md |
+| "이슈", "버그", "문서화" | issue-documentation.md |
+| "학습", "자동 수정", "반복 테스트" | test-automation-patterns.md |
+| "데이터 정리", "삭제", "비용 절감" | data-cleanup.md |
 
 ---
 

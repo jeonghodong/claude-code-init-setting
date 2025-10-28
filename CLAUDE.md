@@ -32,6 +32,10 @@ This file provides guidance to Claude Code when working with code in this reposi
 | "pull request", "PR", creating/reviewing PRs      | `@.claude/prompts/git/pull-request-best-practices.md`                                                                  |
 | "workflow", "git flow", "github flow"             | `@.claude/prompts/git/git-workflow.md`                                                                                 |
 | "merge", "rebase", "squash", "conflict"           | `@.claude/prompts/git/merge-strategies.md`                                                                             |
+| "functional test", "Playwright", "QA automation"  | `@.claude/prompts/QA/functional-testing.md`                                                                            |
+| "issue", "bug report", "document bug"             | `@.claude/prompts/QA/issue-documentation.md`                                                                           |
+| "test automation", "self-learning", "iterative"   | `@.claude/prompts/QA/test-automation-patterns.md`                                                                      |
+| "cleanup", "test data", "delete data"             | `@.claude/prompts/QA/data-cleanup.md`                                                                                  |
 
 ### Manual Reference Syntax
 
