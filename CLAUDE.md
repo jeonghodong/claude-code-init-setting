@@ -4,53 +4,28 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ---
 
-## 🧠 Context-Aware Prompt System
+## 🤖 Specialized Agents
 
-**CRITICAL**: Claude automatically loads relevant prompts from `@.claude/prompts/` based on task context.
+**CRITICAL**: Claude automatically engages specialized agents based on task context.
 
-### Auto-Loading Rules
+### Agent Auto-Engagement
 
-**Before ANY task, read relevant prompts in parallel:**
+Claude will automatically use the appropriate agent for your task:
 
-| Task Keywords                                     | Load Prompts                                                                                                           |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| ANY task (always)                                 | `@.claude/prompts/core/execution-principles.md` (mandatory)<br>`@.claude/prompts/core/automation-rules.md` (mandatory) |
-| Session start                                     | `@.claude/prompts/core/mcp-integration.md`                                                                             |
-| "agent", "workflow", "autonomous"                 | `@.claude/prompts/core/agentic-patterns.md`                                                                            |
-| "tool", "function", "API design"                  | `@.claude/prompts/core/tool-engineering.md`                                                                            |
-| "architecture", "complexity", "should I use"      | `@.claude/prompts/core/complexity-management.md`                                                                       |
-| Feature development, coding                       | `@.claude/prompts/domain/coding-tasks.md`                                                                              |
-| "bug", "debug", "fix", "error", "broken"          | `@.claude/prompts/domain/debugging.md`                                                                                 |
-| "architecture", "design", "system", "scalability" | `@.claude/prompts/domain/architecture.md`                                                                              |
-| "slow", "performance", "optimize", "latency"      | `@.claude/prompts/domain/performance.md`                                                                               |
-| "deploy", "CI/CD", "production", "infrastructure" | `@.claude/prompts/domain/deployment.md`                                                                                |
-| Writing tests, test files, `/test`                | `@.claude/prompts/quality/testing-strategy.md`                                                                         |
-| "security", auth code, user input, `/security`    | `@.claude/prompts/quality/security-practices.md`                                                                       |
-| Code review, PR review, `/refactor`               | `@.claude/prompts/quality/code-review.md`                                                                              |
-| "commit", `/commit`, git commit operations        | `@.claude/prompts/git/commit-guidelines.md`                                                                            |
-| "branch", branch operations, branch naming        | `@.claude/prompts/git/branch-management.md`                                                                            |
-| "pull request", "PR", creating/reviewing PRs      | `@.claude/prompts/git/pull-request-best-practices.md`                                                                  |
-| "workflow", "git flow", "github flow"             | `@.claude/prompts/git/git-workflow.md`                                                                                 |
-| "merge", "rebase", "squash", "conflict"           | `@.claude/prompts/git/merge-strategies.md`                                                                             |
-| "functional test", "Playwright", "QA automation"  | `@.claude/prompts/QA/functional-testing.md`                                                                            |
-| "issue", "bug report", "document bug"             | `@.claude/prompts/QA/issue-documentation.md`                                                                           |
-| "test automation", "self-learning", "iterative"   | `@.claude/prompts/QA/test-automation-patterns.md`                                                                      |
-| "cleanup", "test data", "delete data"             | `@.claude/prompts/QA/data-cleanup.md`                                                                                  |
+| Task Type                                          | Agent Used              | Expertise                                                                |
+| -------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------ |
+| Backend development, API design, database          | `backend-engineer`      | REST/GraphQL APIs, authentication, database patterns, error handling     |
+| Frontend development, UI components, React/Next.js | `frontend-engineer`     | React patterns, accessibility, performance, state management, Tailwind   |
+| Git operations, GitHub workflows, commits, PRs     | `github-expert`         | Branch management, commit guidelines, workflows, merge strategies, PRs   |
+| Automated functional testing with Playwright       | `functional-qa-tester`  | Playwright tests, issue detection, auto-fix, data cleanup                |
+| UI/UX quality assurance, accessibility             | `ui-qa-tester`          | Visual consistency, responsive design, WCAG compliance, UX quality       |
+| System architecture, design patterns               | `architecture-optimizer` | Architecture design, complexity management, scalability                  |
 
-### Manual Reference Syntax
-
-To explicitly load a prompt during conversation:
-
-```
-"Follow the guidelines in @.claude/prompts/core/agentic-patterns.md"
-"Apply @.claude/prompts/quality/testing-strategy.md principles"
-```
+Each agent has comprehensive built-in knowledge and best practices for their domain.
 
 ---
 
 ## ⚡ Core Principles (Always Active)
-
-**Detailed guidelines**: See `@.claude/prompts/core/execution-principles.md`
 
 ### Parallel Execution - MANDATORY
 
@@ -148,13 +123,11 @@ This CLAUDE.md file is designed to be easily customized for any project.
    - Run tests before committing
    ```
 
-3. **Modify prompts** in `@.claude/prompts/` for universal guidelines
+3. **Customize agents** in `@.claude/agents/` if needed
 
-   - `@.claude/prompts/core/` - Principles that apply to all tasks
-   - `@.claude/prompts/domain/` - Task-specific guidelines
-   - `@.claude/prompts/quality/` - Quality assurance practices
-
-4. **Keep auto-loading rules updated** (if you add new prompts)
+   - Each agent has built-in best practices and guidelines
+   - Modify agent instructions to match your team's preferences
+   - Add project-specific patterns or conventions
 
 ### Customization Examples by Project Type
 
@@ -191,28 +164,24 @@ This CLAUDE.md file is designed to be easily customized for any project.
 
 ## 🤖 Autonomous Behavior
 
-**Detailed guidelines**: See `@.claude/prompts/core/automation-rules.md`
+Claude works autonomously to provide the best assistance:
 
-**Summary**:
-
-- Claude automatically uses agents, commands, and workflows based on task context
-- No explicit user request needed for automation
-- Claude proactively applies best practices from `@.claude/prompts/`
-- Always runs independent operations in parallel
-- Briefly informs user of actions taken
+- Automatically engages specialized agents based on task context
+- Uses commands and workflows proactively when appropriate
+- Applies domain-specific best practices through agent knowledge
+- Runs independent operations in parallel for efficiency
+- Briefly informs you of actions taken
 
 ---
 
 ## 🔌 MCP Server Integration
 
-**Detailed guidelines**: See `@.claude/prompts/core/mcp-integration.md`
+Claude integrates seamlessly with MCP (Model Context Protocol) servers:
 
-**Summary**:
-
-- Claude automatically discovers MCP servers from `@.mcp.json` at session start
-- MCP tools used proactively when they match task context
-- Graceful fallback to default tools if MCP unavailable
-- MCP usage combined with agents, commands, and workflows
+- Automatically discovers MCP servers from `@.mcp.json` at session start
+- Uses MCP tools proactively when they match task context
+- Gracefully falls back to default tools if MCP unavailable
+- Combines MCP usage with agents, commands, and workflows
 
 ---
 
@@ -222,46 +191,35 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 
 ### Division of Responsibility
 
-| CLAUDE.md               | @.claude/prompts/         | @.claude/ (other)           |
-| ----------------------- | ------------------------- | --------------------------- |
-| Project-specific config | Universal best practices  | Agents, commands, workflows |
-| Auto-loading rules      | Detailed guidelines       | Tool definitions            |
-| Project architecture    | Industry standards        | Settings                    |
-| Team conventions        | Reusable patterns         | -                           |
-| This project only       | Shareable across projects | Project-agnostic            |
+| CLAUDE.md               | @.claude/agents/                          | @.claude/ (other)           |
+| ----------------------- | ----------------------------------------- | --------------------------- |
+| Project-specific config | Domain expertise & best practices         | Commands, workflows         |
+| Agent engagement rules  | Built-in guidelines for each domain       | Tool definitions            |
+| Project architecture    | Backend, frontend, Git, QA knowledge      | Settings                    |
+| Team conventions        | Architecture patterns & quality standards | -                           |
+| This project only       | Reusable across projects                  | Project-agnostic            |
 
 ### Structure
 
 ```
 .claude/
-├── prompts/
-│   ├── core/                 # Universal principles
-│   │   ├── execution-principles.md
-│   │   ├── agentic-patterns.md
-│   │   ├── tool-engineering.md
-│   │   ├── complexity-management.md
-│   │   ├── automation-rules.md
-│   │   └── mcp-integration.md
-│   ├── domain/               # Task-specific guidelines
-│   │   ├── coding-tasks.md
-│   │   ├── debugging.md
-│   │   ├── architecture.md
-│   │   ├── performance.md
-│   │   └── deployment.md
-│   ├── quality/              # Quality assurance
-│   │   ├── testing-strategy.md
-│   │   ├── security-practices.md
-│   │   └── code-review.md
-│   └── git/                  # Git/GitHub best practices
-│       ├── commit-guidelines.md
-│       ├── branch-management.md
-│       ├── pull-request-best-practices.md
-│       ├── git-workflow.md
-│       └── merge-strategies.md
-├── agents/                   # Specialized agents
-├── commands/                 # Slash commands
-├── workflows/                # Structured workflows
-└── settings.json             # Configuration
+├── agents/                          # Specialized agents with built-in expertise
+│   ├── backend-engineer.md          # Backend development best practices
+│   ├── frontend-engineer.md         # Frontend/React/Next.js patterns
+│   ├── github-expert.md             # Git/GitHub workflows
+│   ├── functional-qa-tester.md      # Playwright-based functional testing
+│   ├── ui-qa-tester.md              # UI/UX quality assurance
+│   ├── architecture-optimizer.md    # System architecture & design
+│   └── react-hook-form-specialist.md # Form implementation patterns
+├── commands/                        # Slash commands
+│   ├── git/commit.md                # Git commit helper
+│   ├── command/create.md            # Create new commands
+│   ├── agents/create.md             # Create new agents
+│   ├── skills/create.md             # Create new skills
+│   ├── qa/functional-test.md        # Run functional tests
+│   └── ui/figma-ui.md               # Generate UI from Figma
+├── workflows/                       # Structured workflows
+└── settings.json                    # Configuration
 ```
 
 ---
@@ -271,15 +229,15 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 1. **Copy `@.claude/` directory** to your new project
 2. **Copy `CLAUDE.md`** to your new project
 3. **Update "Project-Specific Configuration"** section in CLAUDE.md
-4. **Optionally customize prompts** in `@.claude/prompts/`
+4. **Optionally customize agents** in `@.claude/agents/` to match your team's needs
 5. **Commit both** to version control
 
 **That's it!** Claude will automatically:
 
-- Load relevant prompts based on task
-- Use agents, commands, and workflows
+- Engage specialized agents based on task context
+- Use commands and workflows when appropriate
 - Discover and use MCP servers
-- Follow all best practices
+- Apply domain-specific best practices
 
 ---
 
@@ -289,45 +247,51 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 
 **Let Claude work autonomously**:
 
-- You don't need to explicitly mention agents, commands, or prompts
-- Claude will automatically apply the right guidelines
+- You don't need to explicitly mention agents or commands
+- Claude will automatically apply domain-specific best practices
 - Focus on describing what you want, not how to do it
 
 **Examples**:
 
 ```
-❌ "Use the debugging workflow to fix this"
-✅ "This feature is broken, can you fix it?"
-   → Claude automatically loads prompts/domain/debugging.md
+❌ "Use the backend-engineer agent to build this API"
+✅ "Build a REST API for user authentication"
+   → Claude automatically engages backend-engineer agent
 
-❌ "Read the coding best practices and implement this"
-✅ "Add a user authentication system"
-   → Claude automatically loads relevant prompts
+❌ "Use the github-expert to help with git"
+✅ "Help me resolve this merge conflict"
+   → Claude automatically engages github-expert agent
 
-❌ "Use the fullstack-developer agent"
-✅ "Build a contact form with validation"
-   → Claude automatically engages appropriate agent
+❌ "Use the frontend-engineer agent for this component"
+✅ "Build a responsive contact form with validation"
+   → Claude automatically engages frontend-engineer agent
 ```
 
 ### Trust the System
 
-- **Auto-loading works**: Prompts load based on keywords
+- **Agent engagement works**: Specialized agents activate based on task context
 - **Parallel execution happens**: Independent operations run simultaneously
-- **Quality checks applied**: Testing, security, code review guidelines followed
-- **Agents engaged**: Specialized expertise used when needed
+- **Best practices applied**: Domain expertise built into each agent
+- **Quality standards maintained**: Agents follow industry best practices
 
 ---
 
 ## 📚 Learning More
 
-- **Core Principles**: `@.claude/prompts/core/` - Universal guidelines
-- **Task Guidelines**: `@.claude/prompts/domain/` - Specific task patterns
-- **Quality Practices**: `@.claude/prompts/quality/` - Ensuring quality
-- **Git/GitHub Practices**: `@.claude/prompts/git/` - Version control best practices
-- **Agents**: `@.claude/agents/` - Specialized agent definitions
-- **Commands**: `@.claude/commands/` - Available slash commands
+To understand the system better, explore these directories:
 
-**Note**: All prompt files are automatically loaded based on task keywords (see Auto-Loading Rules above). You can also manually reference them using `@.claude/prompts/path/to/prompt.md` syntax.
+- **Agents**: `@.claude/agents/` - View specialized agent definitions and their built-in expertise
+  - `backend-engineer.md` - Backend development patterns and best practices
+  - `frontend-engineer.md` - React, Next.js, and frontend guidelines
+  - `github-expert.md` - Git workflows and GitHub best practices
+  - `functional-qa-tester.md` - Automated testing with Playwright
+  - `ui-qa-tester.md` - UI/UX quality assurance standards
+- **Commands**: `@.claude/commands/` - Discover available slash commands
+  - `/git:commit` - Smart commit helper
+  - `/command:create` - Create new commands
+  - `/agents:create` - Create new agents
+  - `/qa:functional-test` - Run automated tests
+- **Workflows**: `@.claude/workflows/` - Structured multi-step processes
 
 ---
 
@@ -336,28 +300,28 @@ This CLAUDE.md works together with the `@.claude/` configuration:
 **This configuration follows Anthropic's "Building Effective Agents" principles**:
 
 1. **Simplicity first**: Start simple, add complexity only when needed
-2. **Modular prompts**: Load only what's relevant (token efficiency)
+2. **Specialized agents**: Each agent has focused, domain-specific expertise
 3. **Parallel execution**: Maximum performance by default
-4. **Autonomous operation**: Claude proactively applies best practices
-5. **Clear boundaries**: Tools, agents, prompts, and workflows are well-defined
+4. **Autonomous operation**: Agents proactively apply best practices
+5. **Clear boundaries**: Tools, agents, commands, and workflows are well-defined
 6. **Maintainable**: Easy to update, extend, and customize
 
 **Benefits**:
 
-- **~70% smaller** than monolithic CLAUDE.md (800 lines → 250 lines)
-- **Faster context loading**: Only relevant prompts loaded
-- **Better organization**: Clear categorization
-- **Easy maintenance**: Update one prompt without affecting others
-- **Reusable**: Share prompts across projects
-- **Scalable**: Add new prompts without cluttering main file
+- **Self-contained agents**: All best practices built into each agent
+- **Better organization**: Clear separation of concerns by domain
+- **Easy maintenance**: Update one agent without affecting others
+- **Reusable**: Share agents across projects
+- **Scalable**: Add new agents as needed
+- **Token efficient**: No need to load external prompt files
 
 ---
 
 **Remember**:
 
-- The **Auto-Loading Rules** section is the key to this system
-- All **detailed guidelines** live in `@.claude/prompts/`
-- **Project-specific config** goes in this file
-- **Universal best practices** go in `.claude/prompts/`
+- **Agents** automatically engage based on task context
+- All **domain expertise** is built into specialized agents
+- **Project-specific config** goes in CLAUDE.md
+- **Universal best practices** are embedded in each agent
 
-**This design maximizes Claude's effectiveness while minimizing token usage and maintenance burden.**
+**This design maximizes Claude's effectiveness while keeping configuration simple and maintainable.**

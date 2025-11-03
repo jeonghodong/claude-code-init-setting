@@ -1,10 +1,10 @@
 ---
-description: È\´ Claude Code Ğt¸| İ1iÈä.
+description: ìƒˆë¡œìš´ Claude Code ì—ì´ì „íŠ¸ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 model: sonnet
 argument-hint: <agent-name> <description>
 ---
 
-Ü: /agents:create code-reviewer "TÜ ¬ğ| ‰X” Ğt¸"
+ì˜ˆ: /agents:create code-reviewer "ì½”ë“œ ë¦¬ë·°ë¥¼ ìˆ˜í–‰í•˜ëŠ” ì—ì´ì „íŠ¸"
 
 **Agent Name**: $1
 **Agent Description**: $2
@@ -44,9 +44,9 @@ Determine what the agent should handle:
 
 ### When to Use This Agent
 Define trigger scenarios with concrete examples:
-- **Scenario 1**: [Context] ’ [When agent should activate]
-- **Scenario 2**: [Context] ’ [When agent should activate]
-- **Scenario 3**: [Context] ’ [When agent should activate]
+- **Scenario 1**: [Context] â†’ [When agent should activate]
+- **Scenario 2**: [Context] â†’ [When agent should activate]
+- **Scenario 3**: [Context] â†’ [When agent should activate]
 
 ### What This Agent Should NOT Do
 Define clear boundaries to avoid scope creep.
@@ -112,12 +112,12 @@ When activated, follow this systematic process:
 
 ## Guidelines
 
-### Do's 
+### Do's âœ…
 - [Guideline 1: What to do and why]
 - [Guideline 2: What to do and why]
 - [Guideline 3: What to do and why]
 
-### Don'ts L
+### Don'ts âŒ
 - [Anti-pattern 1: What to avoid and why]
 - [Anti-pattern 2: What to avoid and why]
 - [Anti-pattern 3: What to avoid and why]
@@ -163,10 +163,15 @@ Handle these scenarios appropriately:
 - **When it occurs**: [Condition]
 - **How to handle**: [Approach]
 
-## Integration with Prompts
+## Built-In Best Practices
 
-Reference relevant prompt documents for detailed guidelines:
-- \`@.claude/prompts/[category]/[relevant-prompt].md\`
+Include comprehensive best practices and guidelines directly in the agent:
+- Domain-specific patterns and conventions
+- Code examples and templates
+- Common pitfalls to avoid
+- Industry standards and recommendations
+
+**Important**: All expertise should be self-contained in the agent file. No external prompts needed.
 
 ## Examples
 
@@ -226,7 +231,7 @@ After creating the agent file, verify:
 - [ ] Clear purpose statement
 - [ ] 2-3 concrete examples included
 - [ ] Trigger keywords are natural and discoverable
-- [ ] Examples show user context ’ agent activation
+- [ ] Examples show user context â†’ agent activation
 
 ### Content Quality
 - [ ] Core responsibilities clearly defined (3-5 items)
@@ -235,7 +240,7 @@ After creating the agent file, verify:
 - [ ] Quality checks specified
 - [ ] Edge cases considered
 - [ ] Output format defined
-- [ ] Integration with prompts referenced
+- [ ] Best practices and expertise built into agent
 
 ### Completeness
 - [ ] All sections filled out (no placeholders)
@@ -264,51 +269,52 @@ After creation, test the agent:
 After creation, provide:
 
 ```markdown
-##  Agent Created
+## âœ… Agent Created
 
-### =Á File Created
+### ğŸ“ File Created
 - **Path**: `.claude/agents/[name].md`
 - **Name**: [agent-name]
 - **Model**: [model]
 - **Color**: [color]
 - **Domain**: [domain/category]
 
-### =İ Description
+### ğŸ“ Description
 [Agent description from frontmatter]
 
-### <¯ Core Responsibilities
+### ğŸ¯ Core Responsibilities
 1. [Responsibility 1]
 2. [Responsibility 2]
 3. [Responsibility 3]
 
-### =€ When Claude Will Use This Agent
+### ğŸ” When Claude Will Use This Agent
 
 Claude will automatically engage this agent when:
 - [Trigger scenario 1]
 - [Trigger scenario 2]
 - [Trigger scenario 3]
 
-### >ê Testing
+### ğŸ§ª Testing
 
 Try these phrases to activate the agent:
 - "[Example phrase 1]"
 - "[Example phrase 2]"
 - "[Example phrase 3]"
 
-### =Ú Next Steps
+### ğŸ“‹ Next Steps
 
 1. Test the agent with example scenarios
 2. Refine description if agent isn't being discovered
-3. Add complementary prompt document if needed: `.claude/prompts/[category]/[name].md`
+3. Add more built-in best practices if needed (directly in agent file)
 4. Consider creating a slash command for explicit invocation
 5. Commit to git: `git add .claude/agents/[name].md`
 
-### = Related Files
+### ğŸ”— Related Files
 
 **Consider creating**:
-- Prompt document: `.claude/prompts/[category]/[name].md` (detailed guidelines)
 - Slash command: `.claude/commands/[category]/[name].md` (explicit invocation)
 - Skill: `.claude/skills/[name]/SKILL.md` (discoverable skill)
+
+**Remember**: All domain expertise and best practices should be built into the agent file itself, not in separate prompt documents.
 ```
 
 ## Quality Standards
@@ -322,7 +328,7 @@ Try these phrases to activate the agent:
 ### Description Quality
 - [ ] Includes trigger keywords naturally
 - [ ] Has 2-3 concrete examples with user context
-- [ ] Examples show: user request ’ agent action
+- [ ] Examples show: user request â†’ agent action
 - [ ] Clear when to use vs when NOT to use
 
 ### Instruction Quality
