@@ -1,356 +1,216 @@
 ---
-description: 새로운 Claude Code 커맨드를 에이전트, 프롬프트, 스킬과 함께 생성합니다.
+description: 새로운 Claude Code 커맨드를 생성합니다.
 model: sonnet
-argument-hint: <description>
+argument-hint: <command-name> <description>
 ---
 
-예시: 데이터베이스 마이그레이션을 도와주는 커맨드를 만들어줘
+예시: /command:create deploy "배포를 자동화하는 커맨드"
 
-**Command Description**: $1
+**Command Name**: $1
+**Command Description**: $2
 
-Create a comprehensive Claude Code command system based on the description above. This includes:
-
-1. **Agent**: A specialized agent that handles this specific task
-2. **Prompt**: Supporting documentation in `.claude/prompts/` for best practices
-3. **Skill**: A discoverable skill that Claude can invoke autonomously
+Create a new Claude Code slash command based on the information above.
 
 # Command Creation Workflow
 
 ## Step 1: Analysis
 
-Analyze the command description and determine:
+Analyze the command request and determine:
 
+- **Name**: Validate or create kebab-case name (e.g., `deploy`, `api-test`, `database-migrate`)
+- **Category**: Which category does this belong to? (git, qa, ui, backend, devops, etc.)
 - **Purpose**: What problem does this solve?
-- **Category**: Which category does this belong to? (front-end, back-end, QA, devops, data, ai-ml, etc.)
-- **Name**: Create a kebab-case name (e.g., `database-migrator`, `api-tester`)
-- **Scope**: What specific tasks should this handle?
-- **Context**: When should Claude use this?
+- **Scope**: What specific tasks should this command handle?
+- **Arguments**: Does it need arguments? What should the argument-hint be?
+- **Model**: Which model to use? (sonnet for most, haiku for simple, opus for complex)
 
-## Step 2: Create Agent
+## Step 2: Create Command Structure
 
-Create an agent file at `.claude/agents/[name].md` with:
+Determine the directory structure:
+- Category command: `.claude/commands/[category]/[name].md`
+- Root command: `.claude/commands/[name].md`
+
+Examples:
+- `/git:commit` → `.claude/commands/git/commit.md`
+- `/deploy` → `.claude/commands/deploy.md`
+- `/qa:functional-test` → `.claude/commands/qa/functional-test.md`
+
+## Step 3: Create Command File
+
+Create the command file with proper frontmatter and instructions:
 
 ```markdown
 ---
-name: [agent-name]
-description: [Clear description of when to use this agent with 2-3 examples]
-model: sonnet
-color: [purple|blue|green|orange|red|yellow]
+description: [Clear, concise description of what this command does]
+model: [sonnet|haiku|opus]
+argument-hint: [<arg1> <arg2>] (if needed, otherwise omit)
 ---
 
-You are a specialized expert in [domain]. Your mission is to [primary goal].
+[Optional: Usage examples]
 
-## Core Responsibilities
+**[Argument Name]**: $1
+**[Argument Name 2]**: $2 (if applicable)
 
-1. **[Responsibility 1]**: [Description]
-2. **[Responsibility 2]**: [Description]
-3. **[Responsibility 3]**: [Description]
+[Main command instructions - what Claude should do when this command is invoked]
 
-## Process
+# Process
 
-When activated, follow this process:
+## Step 1: [First Action]
 
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+[Detailed instructions for first step]
 
-## Guidelines
+## Step 2: [Second Action]
+
+[Detailed instructions for second step]
+
+## Step 3: [Third Action]
+
+[Detailed instructions for third step]
+
+# Guidelines
 
 - [Guideline 1]
 - [Guideline 2]
 - [Guideline 3]
 
-## Output Format
-
-[Expected output format]
-
-## Quality Assurance
+# Quality Checks
 
 Before completing:
-- [Check 1]
-- [Check 2]
-- [Check 3]
-
-## Edge Cases
-
-- **[Edge case 1]**: [How to handle]
-- **[Edge case 2]**: [How to handle]
-
-[Additional agent-specific instructions]
-```
-
-**Agent Template Guidelines**:
-
-- **name**: kebab-case, descriptive
-- **description**: Include when to use + 2-3 concrete examples with context
-- **model**: Use `sonnet` for most tasks, `haiku` for simple/fast tasks, `opus` for complex reasoning
-- **color**: Visual identifier (purple=architecture, blue=backend, green=frontend, orange=qa, red=security, yellow=data)
-
-## Step 3: Create Prompt Document
-
-Create a prompt file at `.claude/prompts/[category]/[name].md` with:
-
-```markdown
-# [Task Name] Best Practices
-
-## Purpose
-
-[Explain the purpose of this prompt and when it should be loaded]
-
-## Core Principles
-
-1. **[Principle 1]**
-   - [Description]
-   - [Why it matters]
-
-2. **[Principle 2]**
-   - [Description]
-   - [Why it matters]
-
-3. **[Principle 3]**
-   - [Description]
-   - [Why it matters]
-
-## Process
-
-### 1. [Phase 1 Name]
-
-[Detailed steps for phase 1]
-
-### 2. [Phase 2 Name]
-
-[Detailed steps for phase 2]
-
-### 3. [Phase 3 Name]
-
-[Detailed steps for phase 3]
-
-## Best Practices
-
-### [Category 1]
-
-- ✅ **Do**: [Good practice]
-- ❌ **Don't**: [Anti-pattern]
-
-### [Category 2]
-
-- ✅ **Do**: [Good practice]
-- ❌ **Don't**: [Anti-pattern]
-
-## Common Patterns
-
-### Pattern 1: [Pattern Name]
-
-**When to use**: [Context]
-
-**Implementation**:
-\`\`\`[language]
-[Code example]
-\`\`\`
-
-**Why it works**: [Explanation]
-
-### Pattern 2: [Pattern Name]
-
-[Similar structure]
-
-## Anti-Patterns to Avoid
-
-1. **[Anti-pattern 1]**
-   - **Problem**: [What's wrong]
-   - **Solution**: [How to fix]
-
-2. **[Anti-pattern 2]**
-   - **Problem**: [What's wrong]
-   - **Solution**: [How to fix]
-
-## Checklist
-
-Before completing the task:
-
 - [ ] [Check 1]
 - [ ] [Check 2]
 - [ ] [Check 3]
-- [ ] [Check 4]
 
-## Examples
+# Output Format
 
-### Example 1: [Scenario]
-
-**Context**: [Situation]
-
-**Approach**:
-\`\`\`[language]
-[Code or implementation]
-\`\`\`
-
-**Outcome**: [Result and why it's good]
-
-### Example 2: [Scenario]
-
-[Similar structure]
-
-## References
-
-- [Related prompt 1]: \`@.claude/prompts/[category]/[file].md\`
-- [Related prompt 2]: \`@.claude/prompts/[category]/[file].md\`
-
-## Auto-Loading
-
-This prompt is automatically loaded when task keywords include:
-- "[keyword 1]"
-- "[keyword 2]"
-- "[keyword 3]"
+[Expected output or summary format]
 ```
 
-**Prompt Categories**:
+## Step 4: Frontmatter Guidelines
 
-- `core/` - Universal principles (execution, agentic patterns, tool engineering, complexity, automation, MCP)
-- `domain/` - Task-specific (coding, debugging, architecture, performance, deployment)
-- `quality/` - Quality assurance (testing, security, code review)
-- `git/` - Version control (commits, branches, PRs, workflow, merges)
-- `front-end/` - Frontend development (components, state, styling, performance, accessibility)
-- `back-end/` - Backend development (API, auth, database, error handling, performance)
-- `devops/` - DevOps practices (deployment, CI/CD, monitoring, infrastructure)
-- `data/` - Data engineering (pipelines, processing, analysis, warehousing)
-- `ai-ml/` - AI/ML (models, training, evaluation, deployment)
-- `QA/` - Quality assurance (testing, automation, documentation)
+**Required fields**:
+- `description`: One-line description (shown in `/list` and auto-complete)
+- `model`: Choose based on complexity:
+  - `haiku`: Simple, fast tasks (file operations, simple searches)
+  - `sonnet`: Most tasks (analysis, code generation, workflows)
+  - `opus`: Complex reasoning (architecture decisions, complex debugging)
 
-## Step 4: Create Skill
+**Optional fields**:
+- `argument-hint`: Shows expected arguments (e.g., `<url>`, `<file-path> <description>`)
 
-Use the `/skills:create` command to create the skill:
+## Step 5: Writing Effective Instructions
 
-```bash
-/skills:create [Description based on the original command description, with specific focus on when Claude should invoke this skill and what it should do]
-```
+**Good command instructions**:
+- Start with clear objective
+- Break down into numbered steps
+- Include specific examples
+- Specify expected output format
+- Add quality checks
+- Reference relevant files/patterns if needed
 
-The skill description should include:
-- What the skill does
-- When Claude should use it (trigger keywords)
-- What specific actions it performs
-
-## Step 5: Update CLAUDE.md (if needed)
-
-If this is a new category or requires special auto-loading rules, update the Auto-Loading Rules table in `CLAUDE.md`:
+**Example patterns**:
 
 ```markdown
-| "[keyword]", "[keyword2]" | \`@.claude/prompts/[category]/[name].md\` |
+# Simple command (no arguments)
+Run tests and report results in a clear format.
+
+# Command with arguments
+**Target File**: $1
+
+Analyze the file and provide optimization suggestions.
+
+# Command with multiple arguments
+**Source**: $1
+**Destination**: $2
+
+Copy and transform the content from source to destination.
 ```
 
 ## Step 6: Verification
 
-After creating all components, verify:
+After creating the command file, verify:
 
-1. **Agent file exists**: `.claude/agents/[name].md`
-   - Valid YAML frontmatter
-   - Clear description with examples
-   - Comprehensive agent instructions
+1. **File location**: Correct category and naming
+   - File: `.claude/commands/[category]/[name].md`
+   - Usage: `/[category]:[name]` or `/[name]`
 
-2. **Prompt file exists**: `.claude/prompts/[category]/[name].md`
-   - Organized in correct category
-   - Follows best practices template
-   - Includes concrete examples
+2. **Frontmatter**: Valid YAML syntax
+   - description: Clear and concise
+   - model: Appropriate choice
+   - argument-hint: Matches actual arguments (if applicable)
 
-3. **Skill created**: Check output from `/skills:create`
-   - SKILL.md has proper frontmatter
-   - Description includes trigger keywords
-   - Instructions are clear and actionable
+3. **Instructions**: Clear and actionable
+   - Well-structured steps
+   - Specific guidance
+   - Quality checks included
 
-4. **Integration**: Ensure all three components work together:
-   - Agent references the prompt document
-   - Skill can invoke the agent
-   - Prompt provides detailed guidelines
+4. **Test**: Try running the command
+   - Verify it appears in `/list`
+   - Check argument parsing
+   - Ensure instructions are clear
 
 ## Output
 
 After creation, provide:
 
 ```markdown
-## ✅ Command System Created
+## ✅ Command Created
 
-### 📁 Files Created
+### 📁 File Created
+- **Path**: \`.claude/commands/[category]/[name].md\`
+- **Usage**: \`/[category]:[name]\` or \`/[name]\`
+- **Model**: [model]
+- **Arguments**: [argument-hint or "None"]
 
-1. **Agent**: \`.claude/agents/[name].md\`
-   - Purpose: [Brief description]
-   - Color: [color]
+### 📝 Description
+[Command description]
 
-2. **Prompt**: \`.claude/prompts/[category]/[name].md\`
-   - Category: [category]
-   - Auto-loads on: [keywords]
+### 🚀 Usage Example
+\`\`\`bash
+/[command-name] [example arguments]
+\`\`\`
 
-3. **Skill**: \`.claude/skills/[name]/SKILL.md\`
-   - Trigger: [when to use]
+### 🧪 Testing
+Try running: \`/[command-name] [example args]\`
 
-### 🚀 Usage
-
-**Autonomous**: Claude will automatically use this when you mention [trigger keywords]
-
-**Explicit**: You can also use:
-- \`/[command-name]\` (if slash command created)
-- Directly mention the skill by name
-- Invoke the agent via Task tool
-
-### 📝 Next Steps
-
-1. Test the command by mentioning: "[example trigger phrase]"
-2. Review and customize the prompt if needed
-3. Share with team via git commit
-
-### 🔗 Integration
-
-- Agent references: \`@.claude/prompts/[category]/[name].md\`
-- Auto-loading keywords: [list]
+### 📚 Next Steps
+1. Test the command with different inputs
+2. Refine instructions if needed
+3. Add to documentation if it's for team use
+4. Commit to git: \`git add .claude/commands/[category]/[name].md\`
 ```
 
 ## Quality Standards
 
-### Agent Quality
+### Command File Quality
+- [ ] File in correct location (category folder or root)
+- [ ] Valid YAML frontmatter
+- [ ] Clear, concise description
+- [ ] Appropriate model selection
+- [ ] Correct argument-hint (if applicable)
 
-- [ ] Clear, specific name
-- [ ] Description includes when to use + 2-3 examples
-- [ ] Core responsibilities well-defined
-- [ ] Process is step-by-step
-- [ ] Guidelines are actionable
+### Instruction Quality
+- [ ] Clear objective stated upfront
+- [ ] Steps are numbered and specific
+- [ ] Examples provided where helpful
+- [ ] Quality checks included
+- [ ] Output format specified
 - [ ] Edge cases considered
 
-### Prompt Quality
-
-- [ ] Organized by category
-- [ ] Core principles clearly stated
-- [ ] Process broken into phases
-- [ ] Best practices with do/don't
-- [ ] Common patterns with examples
-- [ ] Anti-patterns identified
-- [ ] Checklist for completion
-- [ ] Concrete code examples
-- [ ] Auto-loading keywords listed
-
-### Skill Quality
-
-- [ ] Name is descriptive (kebab-case)
-- [ ] Description includes what AND when
-- [ ] Instructions are step-by-step
-- [ ] Examples are concrete
-- [ ] Best practices included
-- [ ] Error handling addressed
-
-### Integration Quality
-
-- [ ] Agent references relevant prompts
-- [ ] Skill can invoke agent
-- [ ] Prompt provides detailed guidance
-- [ ] Auto-loading rules configured
-- [ ] All components work together
+### Naming Quality
+- [ ] Follows kebab-case convention
+- [ ] Descriptive and intuitive
+- [ ] Consistent with existing commands
+- [ ] Category placement makes sense
 
 ## Implementation
 
-Now create the command system based on the description provided. Follow all steps and ensure high quality for each component.
+Now create the command based on the name and description provided. Follow all steps and ensure high quality.
 
 **Remember**:
-- Choose appropriate category for prompt
-- Use descriptive, trigger-rich descriptions
+- Choose appropriate category and location
+- Write clear, actionable instructions
 - Include concrete examples
-- Ensure all three components (agent, prompt, skill) work together
-- Test by mentioning trigger keywords
+- Test the command after creation
+- Keep it focused on one specific task
 
 Execute this workflow autonomously and report completion with the output template above.
