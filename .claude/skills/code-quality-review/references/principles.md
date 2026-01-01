@@ -1,42 +1,27 @@
----
-name: code-quality-reviewer
-description: 프론트엔드 코드 품질 리뷰어. 가독성, 예측 가능성, 응집도, 결합도 4가지 원칙을 기반으로 코드를 분석합니다. 코드 리뷰 요청 시 또는 코드 작성 후 PROACTIVELY 사용합니다.
-tools: Read, Grep, Glob, Bash
-model: sonnet
-skills: code-quality-review
----
+# 프론트엔드 코드 품질 원칙 상세 가이드
 
-당신은 프론트엔드 코드 품질 전문 리뷰어입니다.
+## 1. 가독성 (Readability)
 
-## 핵심 역할
-
-4가지 원칙(가독성, 예측 가능성, 응집도, 결합도)을 기준으로 코드를 분석하고 개선점을 제안합니다.
-**사람이 한 번에 이해할 수 있는 맥락의 수는 제한적(6~7개)**이므로, 코드 한 곳에 너무 많은 맥락이 섞이지 않도록 설계해야 합니다.
-
-## 호출 시 수행 순서
-
-1. 분석할 코드 파일 읽기
-2. 4가지 원칙 기준으로 코드 분석
-3. 문제점과 개선 제안을 우선순위별로 정리
-4. 구체적인 코드 예시와 함께 피드백 제공
-
----
-
-## 1. 가독성 (Readability) 분석
+사람이 한 번에 이해할 수 있는 맥락의 수는 제한적이기 때문에, 코드 한 곳에 너무 많은 맥락이 섞이지 않도록 설계해야 합니다.
 
 ### 1-1. 맥락 줄이기
 
 #### A. 같이 실행되지 않는 코드 분리하기
 
-**문제 패턴:**
+동시에 실행되지 않는 로직이 한 함수/컴포넌트 안에 섞여 있으면 분기가 많아져 동작을 한 눈에 파악하기 어렵습니다.
+
+**문제 코드:**
 ```tsx
-// ❌ viewer와 일반 사용자 로직이 한 컴포넌트에 섞여 있음
 function SubmitButton() {
   const isViewer = useRole() === "viewer";
+
   useEffect(() => {
-    if (isViewer) return;
+    if (isViewer) {
+      return;
+    }
     showButtonAnimation();
   }, [isViewer]);
+
   return isViewer ? (
     <TextButton disabled>Submit</TextButton>
   ) : (
@@ -45,9 +30,8 @@ function SubmitButton() {
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```tsx
-// ✅ 권한별로 분리하여 각 컴포넌트는 하나의 맥락만 관리
 function SubmitButton() {
   const isViewer = useRole() === "viewer";
   return isViewer ? <ViewerSubmitButton /> : <AdminSubmitButton />;
@@ -58,30 +42,34 @@ function ViewerSubmitButton() {
 }
 
 function AdminSubmitButton() {
-  useEffect(() => { showButtonAnimation(); }, []);
+  useEffect(() => {
+    showButtonAnimation();
+  }, []);
   return <Button type="submit">Submit</Button>;
 }
 ```
 
 #### B. 구현 상세 추상화하기
 
-**문제 패턴:**
+세부 구현을 적절한 추상화 레벨로 감싸면 가독성이 향상됩니다.
+
+**문제 코드 - AuthGuard 예시:**
 ```tsx
-// ❌ 로그인 여부 체크와 리다이렉트 로직이 페이지에 그대로 노출
 function LoginStartPage() {
   const status = useCheckLoginStatus();
+
   useEffect(() => {
     if (status === "LOGGED_IN") {
       location.href = "/home";
     }
   }, [status]);
+
   return status !== "LOGGED_IN" ? <LoginForm /> : null;
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```tsx
-// ✅ AuthGuard로 분리하여 로그인 페이지는 UI에만 집중
 function App() {
   return (
     <AuthGuard>
@@ -92,18 +80,27 @@ function App() {
 
 function AuthGuard({ children }) {
   const status = useCheckLoginStatus();
+
   useEffect(() => {
-    if (status === "LOGGED_IN") location.href = "/home";
+    if (status === "LOGGED_IN") {
+      location.href = "/home";
+    }
   }, [status]);
+
   return status !== "LOGGED_IN" ? children : null;
+}
+
+function LoginStartPage() {
+  return <LoginForm />;
 }
 ```
 
 #### C. 로직 종류에 따라 합쳐진 함수 쪼개기
 
-**문제 패턴:**
+`usePageState()`처럼 "페이지의 모든 쿼리 파라미터를 한 번에 다루는 Hook"은 시간이 지날수록 책임이 무제한 늘어납니다.
+
+**문제 코드:**
 ```ts
-// ❌ 페이지의 모든 쿼리 파라미터를 한 번에 다루는 Hook
 export function usePageState() {
   const [query, setQuery] = useQueryParams({
     cardId: NumberParam,
@@ -112,14 +109,12 @@ export function usePageState() {
     dateTo: DateParam,
     statusList: ArrayParam
   });
-  // 시간이 지날수록 책임이 무제한 늘어남
-  // 이 Hook을 사용하는 컴포넌트는 모든 쿼리 변경에 리렌더링됨
+  // ...
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```ts
-// ✅ 각 책임을 분리하여 이름이 명확하고 리렌더링 범위가 좁아짐
 export function useCardIdQueryParam() {
   const [cardId, _setCardId] = useQueryParam("cardId", NumberParam);
   const setCardId = useCallback((cardId: number) => {
@@ -127,24 +122,14 @@ export function useCardIdQueryParam() {
   }, []);
   return [cardId ?? undefined, setCardId] as const;
 }
-
-export function useDateFromQueryParam() {
-  const [dateFrom, _setDateFrom] = useQueryParam("dateFrom", DateParam);
-  const defaultDateFrom = moment().subtract(3, "month");
-  const setDateFrom = useCallback((date?: Moment) => {
-    _setDateFrom(date?.toDate(), "replaceIn");
-  }, []);
-  return [dateFrom == null ? defaultDateFrom : moment(dateFrom), setDateFrom] as const;
-}
 ```
 
 ### 1-2. 이름 붙이기
 
 #### A. 복잡한 조건에 이름 붙이기
 
-**문제 패턴:**
+**문제 코드:**
 ```ts
-// ❌ 조건의 의미를 파악하기 어려움
 const result = products.filter((product) =>
   product.categories.some(
     (category) =>
@@ -154,9 +139,8 @@ const result = products.filter((product) =>
 );
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```ts
-// ✅ 조건에 이름을 붙여 의도가 드러남
 const matchedProducts = products.filter((product) => {
   return product.categories.some((category) => {
     const isSameCategory = category.id === targetCategory.id;
@@ -170,19 +154,17 @@ const matchedProducts = products.filter((product) => {
 
 #### B. 매직 넘버에 이름 붙이기
 
-**문제 패턴:**
+**문제 코드:**
 ```ts
-// ❌ 300이 무엇을 의미하는지 불명확
 async function onLikeClick() {
   await postLike(url);
-  await delay(300);
+  await delay(300); // 300이 무엇을 의미하는지 불명확
   await refetchPostLike();
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```ts
-// ✅ 의미 있는 상수 이름 사용
 const ANIMATION_DELAY_MS = 300;
 
 async function onLikeClick() {
@@ -196,11 +178,10 @@ async function onLikeClick() {
 
 #### A. 시점 이동 줄이기
 
-코드를 이해하기 위해 여러 함수/파일/상수로 계속 점프해야 하는 상황을 최소화합니다.
+여러 함수/파일/상수로 계속 점프해야 하는 상황을 줄이세요.
 
 **권장 패턴:**
 ```tsx
-// ✅ 권한 정책을 컴포넌트 안에서 한눈에 파악 가능
 function Page() {
   const user = useUser();
   const policy = {
@@ -219,15 +200,14 @@ function Page() {
 
 #### B. 삼항 연산자 단순하게 하기
 
-**문제 패턴:**
+**문제 코드:**
 ```ts
-// ❌ 중첩된 삼항 연산자는 구조 파악이 어려움
-const status = A조건 && B조건 ? "BOTH" : A조건 || B조건 ? (A조건 ? "A" : "B") : "NONE";
+const status =
+  A조건 && B조건 ? "BOTH" : A조건 || B조건 ? (A조건 ? "A" : "B") : "NONE";
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```ts
-// ✅ IIFE + if문으로 조건 흐름이 명확
 const status = (() => {
   if (A조건 && B조건) return "BOTH";
   if (A조건) return "A";
@@ -240,7 +220,7 @@ const status = (() => {
 
 **권장 패턴:**
 ```ts
-// ✅ 수학 부등식 순서대로 작성하면 범위를 직관적으로 파악
+// 수학의 부등식 순서대로 작성
 if (b <= a && a <= c) { ... }
 if (80 <= score && score <= 100) { console.log("우수"); }
 if (minPrice <= price && price <= maxPrice) { console.log("적정 가격"); }
@@ -248,13 +228,14 @@ if (minPrice <= price && price <= maxPrice) { console.log("적정 가격"); }
 
 ---
 
-## 2. 예측 가능성 (Predictability) 분석
+## 2. 예측 가능성 (Predictability)
+
+같은 이름, 같은 종류의 함수는 일관된 동작과 반환 타입을 가져야 합니다.
 
 ### 2-1. 이름 겹치지 않게 관리하기
 
-**문제 패턴:**
+**문제 코드:**
 ```tsx
-// ❌ 라이브러리와 이름이 같아서 혼란 유발
 import { http as httpLibrary } from "@some-library/http";
 
 export const http = {
@@ -267,9 +248,8 @@ export const http = {
 };
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```tsx
-// ✅ 명확한 이름으로 구분
 import { http as httpLibrary } from "@some-library/http";
 
 export const httpService = {
@@ -286,9 +266,8 @@ export const httpService = {
 
 #### 예시 1: API 호출 Hook
 
-**문제 패턴:**
+**문제 코드:**
 ```tsx
-// ❌ 반환 타입이 다름
 function useUser() {
   const query = useQuery({ queryKey: ["user"], queryFn: fetchUser });
   return query; // Query 객체 반환
@@ -300,68 +279,68 @@ function useServerTime() {
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```tsx
-// ✅ 일관된 반환 타입
 function useUser() {
-  return useQuery({ queryKey: ["user"], queryFn: fetchUser });
+  const query = useQuery({ queryKey: ["user"], queryFn: fetchUser });
+  return query; // Query 객체
 }
 
 function useServerTime() {
-  return useQuery({ queryKey: ["serverTime"], queryFn: fetchServerTime });
+  const query = useQuery({ queryKey: ["serverTime"], queryFn: fetchServerTime });
+  return query; // Query 객체 - 일관성!
 }
 ```
 
 #### 예시 2: 유효성 검사 함수
 
-**문제 패턴:**
+**문제 코드:**
 ```tsx
-// ❌ 반환 타입이 불일치 - 버그 유발
 function checkIsNameValid(name: string) {
-  return name.length > 0 && name.length < 20; // boolean
+  return name.length > 0 && name.length < 20; // boolean 반환
 }
 
 function checkIsAgeValid(age: number) {
   if (!Number.isInteger(age)) {
     return { ok: false, reason: "나이는 정수여야 해요." };
   }
-  return { ok: true }; // 객체
+  return { ok: true }; // 객체 반환 - 불일치!
 }
 
 // 버그: checkIsAgeValid는 항상 객체를 반환하므로 항상 true
 if (checkIsAgeValid(age)) { ... }
 ```
 
-**개선 패턴 (Discriminated Union):**
+**개선된 코드 (Discriminated Union):**
 ```tsx
-// ✅ 일관된 반환 타입 + 타입 안전성
-type ValidationResult = { ok: true } | { ok: false; reason: string };
+type ValidationResult =
+  | { ok: true }
+  | { ok: false; reason: string };
 
 function checkIsNameValid(name: string): ValidationResult {
-  if (name.length === 0) return { ok: false, reason: "이름은 빈 값일 수 없어요." };
-  if (name.length >= 20) return { ok: false, reason: "이름은 20자 미만이어야 해요." };
+  if (name.length === 0) {
+    return { ok: false, reason: "이름은 빈 값일 수 없어요." };
+  }
+  if (name.length >= 20) {
+    return { ok: false, reason: "이름은 20자 이상 입력할 수 없어요." };
+  }
   return { ok: true };
 }
 
 function checkIsAgeValid(age: number): ValidationResult {
-  if (!Number.isInteger(age)) return { ok: false, reason: "나이는 정수여야 해요." };
-  if (age < 18) return { ok: false, reason: "나이는 18세 이상이어야 해요." };
+  if (!Number.isInteger(age)) {
+    return { ok: false, reason: "나이는 정수여야 해요." };
+  }
   return { ok: true };
-}
-
-const result = checkIsAgeValid(1.1);
-if (result.ok) {
-  result.reason; // ❌ 타입 에러: reason이 없음
-} else {
-  result.reason; // ✅ ok가 false일 때만 접근 가능
 }
 ```
 
 ### 2-3. 숨은 로직 드러내기
 
-**문제 패턴:**
+함수명, 파라미터, 반환 타입으로 예측할 수 없는 숨은 로직이 있으면 안 됩니다.
+
+**문제 코드:**
 ```tsx
-// ❌ 로깅이 함수 안에 숨어 있음
 async function fetchBalance(): Promise<number> {
   const balance = await http.get<number>("...");
   logging.log("balance_fetched"); // 숨은 로직!
@@ -369,11 +348,11 @@ async function fetchBalance(): Promise<number> {
 }
 ```
 
-**개선 패턴:**
+**개선된 코드:**
 ```tsx
-// ✅ 함수는 순수하게, 로깅은 명시적으로
 async function fetchBalance(): Promise<number> {
-  return await http.get<number>("...");
+  const balance = await http.get<number>("...");
+  return balance;
 }
 
 // 사용 시 명시적으로 로깅
@@ -390,13 +369,14 @@ async function fetchBalance(): Promise<number> {
 
 ---
 
-## 3. 응집도 (Cohesion) 분석
+## 3. 응집도 (Cohesion)
+
+함께 수정되어야 할 코드가 함께 있어야 합니다.
 
 ### 3-1. 함께 수정되는 파일을 같은 디렉토리에 두기
 
-**문제 구조:**
+**문제 구조 (종류별 분류):**
 ```
-❌ 종류별 분류 - 의존 관계 파악이 어려움
 └─ src
    ├─ components
    ├─ constants
@@ -407,9 +387,8 @@ async function fetchBalance(): Promise<number> {
    └─ ...
 ```
 
-**개선 구조:**
+**개선된 구조 (도메인별 분류):**
 ```
-✅ 도메인별 분류 - 의존 관계가 명확함
 └─ src
    ├─ components (전체 프로젝트에서 사용)
    ├─ hooks
@@ -419,7 +398,8 @@ async function fetchBalance(): Promise<number> {
       ├─ Domain1
       │  ├─ components
       │  ├─ hooks
-      │  └─ utils
+      │  ├─ utils
+      │  └─ ...
       │
       └─ Domain2
          ├─ components
@@ -428,52 +408,108 @@ async function fetchBalance(): Promise<number> {
 ```
 
 **장점:**
-- `../../../Domain2/hooks/useFoo` 같은 import를 보면 도메인 간 참조 즉시 인지
-- 도메인 디렉토리 삭제 시 관련 파일 모두 제거
-- 새 도메인 추가 시 관련 코드를 한 곳에 집중
+- 의존 관계가 명확해짐
+- 코드 삭제가 간단해짐 (도메인 폴더 전체 삭제)
+- 프로젝트 확장이 쉬워짐
 
 ### 3-2. 매직 넘버 없애기
 
 애니메이션 시간과 delay 함수가 함께 수정되어야 하는데, 상수로 연결하지 않으면 한쪽만 수정될 위험이 있습니다.
 
+```ts
+const ANIMATION_DELAY_MS = 300;
+
+async function onLikeClick() {
+  await postLike(url);
+  await delay(ANIMATION_DELAY_MS);
+  await refetchPostLike();
+}
+```
+
 ### 3-3. 폼의 응집도 생각하기
 
-| 상황 | 필드 단위 | 폼 전체 단위 |
-|------|-----------|--------------|
-| 필드별 독립 검증 필요 | ✅ | ❌ |
-| 필드 재사용 필요 | ✅ | ❌ |
-| 단일 비즈니스 로직 | ❌ | ✅ |
-| 단계별 입력(Wizard) | ❌ | ✅ |
-| 필드 간 의존성 있음 | ❌ | ✅ |
+#### A. 필드 단위 응집도
+
+각 필드가 독립적으로 검증 로직을 가지고 관리되는 방식.
+
+**사용하면 좋을 때:**
+- 필드별로 복잡한 검증이 필요할 때
+- 필드들이 다른 폼에서도 동일하게 재사용될 때
+
+#### B. 폼 전체 단위 응집도
+
+모든 필드의 검증 로직이 폼 전체에서 한 번에 관리되는 방식 (Zod 스키마 등).
+
+**사용하면 좋을 때:**
+- 모든 필드가 하나의 비즈니스 로직을 이룰 때
+- 단계별 입력이 필요한 Wizard Form
+- 필드 간에 의존성이 있을 때
 
 ---
 
-## 4. 결합도 (Coupling) 분석
+## 4. 결합도 (Coupling)
+
+코드 간의 불필요한 의존성을 줄이고, 각 코드의 책임을 명확히 분리해야 합니다.
 
 ### 4-1. 책임을 하나씩 관리하기
 
-`usePageState()`처럼 한 곳에서 모든 것을 관리하면:
-- 수정 시 모든 의존 컴포넌트가 영향받음
-- 새 파라미터 추가 시 복잡도 증가
-- 불필요한 리렌더링 발생
+**문제 코드:**
+```ts
+export function usePageState() {
+  const [query, setQuery] = useQueryParams({
+    cardId: NumberParam,
+    statementId: NumberParam,
+    dateFrom: DateParam,
+    dateTo: DateParam,
+    statusList: ArrayParam
+  });
+  // 모든 쿼리 파라미터를 한 곳에서 관리
+}
+```
+
+**개선된 코드:**
+```ts
+export function useCardIdQueryParam() {
+  const [cardId, _setCardId] = useQueryParam("cardId", NumberParam);
+  const setCardId = useCallback((cardId: number) => {
+    _setCardId({ cardId }, "replaceIn");
+  }, []);
+  return [cardId ?? undefined, setCardId] as const;
+}
+
+export function useDateFromQueryParam() {
+  const [dateFrom, _setDateFrom] = useQueryParam("dateFrom", DateParam);
+  const defaultDateFrom = moment().subtract(3, "month");
+  const setDateFrom = useCallback((date?: Moment) => {
+    _setDateFrom(date?.toDate(), "replaceIn");
+  }, []);
+  return [dateFrom == null ? defaultDateFrom : moment(dateFrom), setDateFrom] as const;
+}
+```
 
 ### 4-2. 중복 코드 허용하기
 
+페이지마다 다른 요구사항이 생기면, 공통 코드가 점점 복잡해집니다.
+
+**판단 기준:**
+
 | 상황 | 공통화 | 중복 허용 |
 |------|--------|-----------|
-| 동작이 완전히 동일 | ✅ | ❌ |
-| 향후 변경 가능성 있음 | ❌ | ✅ |
-| 페이지별 특이 요구사항 | ❌ | ✅ |
-| 여러 버전의 인자 필요 | ❌ | ✅ |
+| 동작이 완전히 동일 | O | X |
+| 향후 변경 가능성 있음 | X | O |
+| 페이지별 특이 요구사항 | X | O |
+| 여러 버전의 인자 필요 | X | O |
 
 ### 4-3. Props Drilling 지우기
 
-#### 해결방법 1: Composition 패턴 (가벼운 Props Drilling)
+부모가 사용하지 않는 prop을 자식에게 그저 전달만 하는 패턴을 피하세요.
+
+#### 해결방법 1: Composition 패턴
 
 ```tsx
-// ✅ children을 사용해 중간 컴포넌트가 prop을 전달할 필요 없음
 function ItemEditModal({ open, items, recommendedItems, onConfirm, onClose }) {
   const [keyword, setKeyword] = useState("");
+
   return (
     <Modal open={open} onClose={onClose}>
       <ItemEditBody keyword={keyword} onKeywordChange={setKeyword} onClose={onClose}>
@@ -487,19 +523,34 @@ function ItemEditModal({ open, items, recommendedItems, onConfirm, onClose }) {
     </Modal>
   );
 }
+
+function ItemEditBody({ children, keyword, onKeywordChange, onClose }) {
+  return (
+    <>
+      <div>
+        <Input value={keyword} onChange={(e) => onKeywordChange(e.target.value)} />
+        <Button onClick={onClose}>닫기</Button>
+      </div>
+      {children}
+    </>
+  );
+}
 ```
 
 #### 해결방법 2: Context API (깊은 Props Drilling)
 
 ```tsx
-// ✅ 정말 필요할 때만 마지막 수단으로 Context 사용
 const ItemEditModalContext = createContext();
 
 function ItemEditModal({ open, items, recommendedItems, onConfirm, onClose }) {
+  const [keyword, setKeyword] = useState("");
+
   return (
     <ItemEditModalContext.Provider value={{ items, recommendedItems }}>
       <Modal open={open} onClose={onClose}>
-        ...
+        <ItemEditBody keyword={keyword} onKeywordChange={setKeyword} onClose={onClose}>
+          <ItemEditList keyword={keyword} onConfirm={onConfirm} />
+        </ItemEditBody>
       </Modal>
     </ItemEditModalContext.Provider>
   );
@@ -507,44 +558,11 @@ function ItemEditModal({ open, items, recommendedItems, onConfirm, onClose }) {
 
 function ItemEditList({ keyword, onConfirm }) {
   const { items, recommendedItems } = useContext(ItemEditModalContext);
-  return <>{/* 렌더링 */}</>;
+  return <>{/* 검색 및 아이템 렌더링 */}</>;
 }
 ```
 
-**주의:** Props는 컴포넌트의 역할과 의도를 표현하므로, 모든 값을 Context로 관리하면 안 됩니다.
-
----
-
-## 리뷰 결과 포맷
-
-```markdown
-# 코드 품질 리뷰 결과
-
-## 요약
-- 분석 파일: [파일명]
-- 전체 평가: [좋음/보통/개선 필요]
-
-## 발견된 이슈
-
-### [높음] 이슈 제목
-- **원칙**: 가독성/예측 가능성/응집도/결합도
-- **위치**: 파일명:라인번호
-- **문제**: 문제 설명
-- **제안**: 개선 방안
-- **예시 코드**: (개선 전/후 코드)
-
-## 잘 된 점
-- ...
-
-## 개선 요약
-1. ...
-2. ...
-```
-
-## 가이드라인
-
-- 문제만 지적하지 말고, 구체적인 해결 방안과 코드 예시를 함께 제공
-- 잘 된 점도 함께 언급하여 균형 잡힌 피드백 제공
-- 이슈는 우선순위(높음/중간/낮음)별로 분류
-- 맥락을 고려하여 과도한 리팩토링은 지양
-- 실제 문제가 되는 부분에만 집중
+**Context 사용 시 주의:**
+- Props는 컴포넌트의 역할과 의도를 표현하므로, 모든 값을 Context로 관리하면 안 됨
+- 먼저 Composition 패턴으로 depth를 줄일 수 있는지 검토
+- 정말 필요할 때만 마지막 수단으로 Context 사용
