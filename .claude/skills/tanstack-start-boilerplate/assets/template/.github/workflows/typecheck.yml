@@ -1,0 +1,21 @@
+name: Typecheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: typecheck-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: pnpm i18n:compile
+      - run: pnpm typecheck

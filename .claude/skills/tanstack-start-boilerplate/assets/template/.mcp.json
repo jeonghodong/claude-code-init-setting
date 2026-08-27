@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "xds": {
+      "type": "http",
+      "url": "https://astryx.atmeta.com/mcp"
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    }
+  }
+}

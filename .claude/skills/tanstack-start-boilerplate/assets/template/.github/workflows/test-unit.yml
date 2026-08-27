@@ -1,0 +1,23 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: test-unit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Playwright browser (storybook browser tests)
+        run: pnpm exec playwright install chromium --with-deps
+      - run: pnpm test
+      - run: pnpm test:storybook

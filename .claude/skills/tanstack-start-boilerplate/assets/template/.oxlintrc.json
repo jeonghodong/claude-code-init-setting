@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "unicorn", "import", "jsx-a11y", "promise", "oxc", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }]
+  },
+  "overrides": [
+    {
+      "files": ["src/themes/**"],
+      "rules": {
+        "vitest/no-commented-out-tests": "off"
+      }
+    }
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "src/i18n/paraglide/**",
+    "src/routeTree.gen.ts",
+    "dist/**",
+    ".output/**",
+    ".tanstack/**",
+    ".nitro/**",
+    "storybook-static/**"
+  ]
+}
