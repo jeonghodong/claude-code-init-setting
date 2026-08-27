@@ -1,0 +1,37 @@
+{
+  "skill_name": "tanstack-start-boilerplate",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "basic-scaffold-latest-versions",
+      "prompt": "TanStack Start로 새 프로젝트 하나 세팅해줘. 프로젝트 이름은 pawmart-web이고, 지금은 기본 틀만 있으면 돼 (화면 구현은 나중에 우리 팀이 직접 할 거야). 현재 디렉토리 아래에 만들어줘. 참고로 의존성은 꼭 최신 버전으로 맞춰줘.",
+      "expected_output": "현재 디렉토리에 pawmart-web/ 생성. 템플릿 구조(domain/, routes/ 위임, .mcp.json, mise.toml, .env.example 등) 그대로 복사, package.json name이 pawmart-web, @tanstack/react-start 등 핵심 의존성이 npm 최신 안정 버전으로 갱신됨, README가 실제 스택 기준으로 새로 작성됨(Tailwind 언급 없음), pnpm install + typecheck + build 통과, 버전 갱신 내역 보고.",
+      "files": [],
+      "assertions": [
+        "Project created: pawmart-web exists and its package.json name field is 'pawmart-web'",
+        "Latest versions: package.json's @tanstack/react-start version matches the current npm latest (allowing ^/~ prefix)",
+        "Env hygiene: .env.example exists and no .env.local is present",
+        "Boilerplate structure: src/domain/_shared/styles/theme.css.ts, src/routes/__root.tsx, src/themes/, .mcp.json with 'xds' server, mise.toml all exist",
+        "Fresh README: README.md mentions the actual stack (TanStack Start, pnpm) and does NOT mention Tailwind",
+        "Verification ran: typecheck and build executed and passed"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "admin-dashboard-preset-astryx",
+      "prompt": "사내 백오피스용 관리자 대시보드 프로젝트를 새로 시작하려고 해. TanStack Start 보일러플레이트로 admin-console이라는 이름으로 현재 디렉토리에 만들어줘. UX/UI까지 구현해줘 — 회원 목록 테이블(페이지네이션, 필터), 월별 매출 차트, Admin/User 권한별 접근 제한 페이지가 필요해. 와이어프레임 확인은 생략하고 바로 구현해도 돼.",
+      "expected_output": "admin-console/ 생성 + 최신 버전 검증 수행. domain/dashboard, domain/members, domain/auth 등의 도메인 구조로 화면 구현. 모든 UI가 Astryx 컴포넌트 기반(raw div 레이아웃 없음, 하드코딩 hex/px 없음, 토큰 사용), 커스텀 스타일은 vanilla-extract 토큰 브리지 경유. routes는 위임만. beforeLoad 권한 가드 존재. typecheck/lint/build 통과.",
+      "files": [],
+      "assertions": [
+        "Project created: admin-console exists and its package.json name field is 'admin-console'",
+        "Latest versions: package.json's @tanstack/react-start version matches the current npm latest (allowing ^/~ prefix)",
+        "Domain structure: feature code under src/domain/<feature>/components, route files only delegate",
+        "Auth guard: Admin/User access restriction via TanStack Router beforeLoad",
+        "Astryx usage: implemented components import from '@astryxdesign/core/...' deep paths",
+        "Token discipline: authored files under src/domain contain no hardcoded hex colors or raw px inline styles",
+        "All three requested features exist: members table (pagination+filter), monthly revenue chart, role-restricted page",
+        "Verification ran: typecheck and build executed and passed"
+      ]
+    }
+  ]
+}
